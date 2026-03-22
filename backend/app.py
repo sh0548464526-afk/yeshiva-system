@@ -1,16 +1,17 @@
-﻿from flask import Flask
+from flask import Flask
 from flask_cors import CORS
-from models import db, Seder, Day
-from auth import auth
-from attendance import attendance
+from backend.models import db, Seder, Day
+from backend.auth import auth
+from backend.attendance import attendance
 
 app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite3"
-app.secret_key = "secret"
+app.config['SECRET_KEY'] = "secret"
 
 db.init_app(app)
+
 app.register_blueprint(auth)
 app.register_blueprint(attendance)
 
@@ -37,4 +38,4 @@ def home():
     return "API Running"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=10000)
